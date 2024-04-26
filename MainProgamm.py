@@ -1,11 +1,17 @@
 import tkinter as tk
+from PIL import Image, ImageTk
+import customtkinter
+import os
 
-#Create Window
+import Setup
+
+# Create main window
 root = tk.Tk()
 root.title("Mitarbeiter Management Programm")
-
-#Windows Size
 root.geometry("900x600")
 
-#Start loop for View Window
+# Setup Wizzard
+Setup.Setupstart(root)
+
+
 root.mainloop()
