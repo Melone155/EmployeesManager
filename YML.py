@@ -1,7 +1,7 @@
 import os
 import yaml
 
-def CreateConfigs():
+def CreateConfigs(Status, Host, Username, Password, Database):
 
     # Path to the YAML files
     MySQL = 'Config/MySQL.yaml'
@@ -10,19 +10,19 @@ def CreateConfigs():
 
     MySQLdata = {
         "MySQL": [
-
+            {'Status' : Status, 'Host': Host, 'User': Username, 'Password': Password, "Database": Database}
         ]
     }
 
     Employeesdata = {
         "Employees": [
-
+            #{'Name': 'Max Mustermann', 'Alter': 30, 'Position': 'Manager'}
         ]
     }
 
     Userdata = {
         "User": [
-
+            {'Admin': 'Admin'}
         ]
     }
 

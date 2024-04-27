@@ -1,17 +1,14 @@
 import tkinter as tk
-from PIL import Image, ImageTk
-import customtkinter
 import os
-
 import Setup
 
-# Create main window
+# Hauptfenster erstellen
 root = tk.Tk()
 root.title("Mitarbeiter Management Programm")
 root.geometry("900x600")
 
-# Setup Wizzard
+# Setup Wizard starten
 Setup.Setupstart(root)
 
-
+# GUI-Schleife starten
 root.mainloop()
