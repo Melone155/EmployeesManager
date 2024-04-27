@@ -1,10 +1,11 @@
 import tkinter as tk
-
+from PIL import Image, ImageTk
 import customtkinter
 from customtkinter.windows.widgets import ctk_button
-from PIL import Image, ImageTk
 import  os
 
+import Login
+import OnStart
 import YML
 
 var = None
@@ -46,6 +47,11 @@ def Setupstart(root):
         )
 
         Setup_Wizard_Button.place(x=400, y=400)
+    else:
+        if Login.IsLogin == False:
+            Login.LoginScreen(root)
+        else:
+            OnStart.MySQLRequest()
 
 def start_Wizard(root):
 
@@ -112,21 +118,21 @@ def Finishsetup(root):
         hostentry = tk.Entry(root)
         hostentry.place(x=393, y=382)
 
-        # User (35)
+        # User
         userlabe = tk.Label(root, text="Username", font=("Helvetica", 16))
         userlabe.place(x=290, y=410)
 
         unserentry = tk.Entry(root)
         unserentry.place(x=393, y=417)
 
-        # Passwort (35)
+        # Passwort
         passwordlabel = tk.Label(root, text="Passwort", font=("Helvetica", 16))
         passwordlabel.place(x=290, y=445)
 
         passwordentry = tk.Entry(root, show="*")
         passwordentry.place(x=393, y=452)
 
-        # Database (35)
+        # Database
         dblabel = tk.Label(root, text="Database", font=("Helvetica", 16))
         dblabel.place(x=290, y=480)
 
