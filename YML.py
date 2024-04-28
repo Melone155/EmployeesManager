@@ -22,7 +22,7 @@ def CreateConfigs(Status, Host, Username, Password, Database):
 
     Userdata = {
         "User": [
-            {'Admin': 'Admin'}
+            {'Admin': 'admin'}
         ]
     }
 

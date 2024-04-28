@@ -1,4 +1,6 @@
 import tkinter as tk
+
+import mysql.connector
 from PIL import Image, ImageTk
 import customtkinter
 from customtkinter.windows.widgets import ctk_button
@@ -155,12 +157,29 @@ def Finishsetup(root):
             fg_color="#ffffff",
             hover=False,
             command =
-                lambda: YML.CreateConfigs(True, hostentry.get(), unserentry.get(), passwordentry.get(), dbentry.get())
+                lambda: check_mysql(hostentry.get(), unserentry.get(), passwordentry.get(), dbentry.get(), root)
         )
 
         Setup_Wizard_Button.place(x=397, y=530)
 
     else:
-        YML.CreateConfigs(False, "Host", "Username", "Password", "Database")
+        YML.CreateConfigs(False, "", "", "", "")
 
+def check_mysql(host, username, password, database, root):
+    try:
+        # Verbindung zur MySQL-Datenbank herstellen
+        connection = mysql.connector.connect(
+            host=host,
+            user=username,
+            password=password,
+            database=database
+        )
+        # Verbindung erfolgreich hergestellt
+        YML.CreateConfigs(True, host, username, password, database)
+        connection.close()
 
+    except mysql.connector.Error as error:
+        # Verbindung konnte nicht hergestellt werden
+        errorlabel = tk.Label(root, text="Database information incorrect please check your input", font=("Helvetica", 10))
+        errorlabel.place(x=290, y=573)
+        print(error)

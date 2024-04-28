@@ -18,18 +18,18 @@ def LoginScreen(root):
     label.pack(pady=20)
 
     # User
-    Userlabe = tk.Label(root, text="Host", font=("Helvetica", 16))
-    Userlabe.place(x=340, y=375)
+    Userlabe = tk.Label(root, text="Username", font=("Helvetica", 16))
+    Userlabe.place(x=336, y=284)
 
     Userentry = tk.Entry(root)
-    Userentry.place(x=393, y=382)
+    Userentry.place(x=440, y=290)
 
     # Password
     passwordlabe = tk.Label(root, text="Password", font=("Helvetica", 16))
-    passwordlabe.place(x=290, y=410)
+    passwordlabe.place(x=336, y=319)
 
     passwordentry = tk.Entry(root, show="*")
-    passwordentry.place(x=393, y=417)
+    passwordentry.place(x=440, y=325)
 
     main_font = customtkinter.CTkFont(family="Helvetica", size=12)
 
@@ -47,17 +47,18 @@ def LoginScreen(root):
         fg_color="#ffffff",
         hover=False,
         command=
-        lambda: Login(Userentry.get(), passwordentry.get())
+        lambda: Login(Userentry.get(), passwordentry.get(), root)
     )
 
-    Setup_Wizard_Button.place(x=397, y=530)
+    Setup_Wizard_Button.place(x=387, y=360)
 
 
-def Login(User, Password):
+def Login(User, Password, root):
     if UserRequest(User, Password):
         print("Admin credentials are correct.")
     else:
-        print("Admin credentials are incorrect.")
+        labe = tk.Label(root, text="The username or password is incorrect try again", font=("Helvetica", 13))
+        labe.place(x=270, y=410)
 
 def UserRequest(User, Password):
     # Laden der YAML-Datei
