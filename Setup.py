@@ -4,10 +4,10 @@ import mysql.connector
 from PIL import Image, ImageTk
 import customtkinter
 from customtkinter.windows.widgets import ctk_button
-import  os
+import os
 
 import Login
-import OnStart
+import EmployeeManager
 import YML
 
 var = None
@@ -51,9 +51,8 @@ def Setupstart(root):
         Setup_Wizard_Button.place(x=400, y=400)
     else:
         if Login.IsLogin == False:
-            Login.LoginScreen(root)
-        else:
-            OnStart.MySQLRequest()
+            #Login.LoginScreen(root)
+            EmployeeManager.NormalScreen(root)
 
 def start_Wizard(root):
 
@@ -176,6 +175,12 @@ def check_mysql(host, username, password, database, root):
         )
         # Verbindung erfolgreich hergestellt
         YML.CreateConfigs(True, host, username, password, database)
+
+        cursor = connection.cursor()
+        create_table_query = "CREATE TABLE IF NOT EXISTS Employees (First name VARCHAR(100), Surname VARCHAR(100), Place VARCHAR(100), Cost centre INT(100) Telephone number INT(100))"
+        cursor.execute(create_table_query)
+        cursor.close()
+
         connection.close()
 
     except mysql.connector.Error as error:

@@ -5,6 +5,8 @@ from PIL import Image, ImageTk
 import customtkinter
 from customtkinter.windows.widgets import ctk_button
 
+import EmployeeManager
+
 IsLogin = False
 
 def LoginScreen(root):
@@ -55,7 +57,8 @@ def LoginScreen(root):
 
 def Login(User, Password, root):
     if UserRequest(User, Password):
-        print("Admin credentials are correct.")
+       #User login was successful
+        EmployeeManager.NormalScreen(root)
     else:
         labe = tk.Label(root, text="The username or password is incorrect try again", font=("Helvetica", 13))
         labe.place(x=270, y=410)

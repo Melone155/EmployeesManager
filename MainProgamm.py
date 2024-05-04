@@ -6,7 +6,7 @@ import Setup
 
 # Hauptfenster erstellen
 root = tk.Tk()
-root.title("Mitarbeiter Management Programm")
+root.title("Employee Management Programme")
 root.geometry("900x600")
 
 # Setup Wizard starten
