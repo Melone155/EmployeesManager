@@ -4,10 +4,6 @@ from tkinter import *
 import customtkinter
 from customtkinter.windows.widgets import ctk_button
 
-import re
-
-from datetime import datetime
-
 import EmployeeManager
 
 fields = "Last Name", "First Name", "Job", "Country", "Address", "Telephone", "Email", "Position", "Joining the company", "Pay", "Pension start date"
@@ -17,7 +13,7 @@ def AddEmployee(root):
     for widget in root.winfo_children():
         widget.destroy()
 
-    # Navbar
+    #Navbar
 
     canvas = tk.Canvas(root, width=900, height=50)
     canvas.pack()
@@ -30,16 +26,15 @@ def AddEmployee(root):
 
     back.bind("<Button-1>", lambda event: EmployeeManager.NormalScreen(root))
 
-    # Formular
-    global form_entries
+    #Formular
     form_entries = makeform(root, fields)
 
-    # Save Button
+    #Save Button
     main_font = customtkinter.CTkFont(family="Helvetica", size=12)
     Save_Button = ctk_button.CTkButton(
         master=root,
         text="Save",
-        command= lambda: Save(),
+        command=lambda: lambda event, entry=ent: get_input(event, entry),
         font=main_font,
         text_color="black",
         height=40,
@@ -55,59 +50,27 @@ def AddEmployee(root):
     Save_Button.place(x=400, y=500)
 
 
-def Save():
-    telephone_entry = form_entries["Telephone"]
-    telephone = telephone_entry.get()
+def get_input(entries, entry):
+    LastName = entries["Last Name"].get()
+    FirstName = entries["First Name"].get()
+    Job = entries["Job"].get()
+    Country = entries["Country"].get()
+    Address = entries["Address"].get()
+    Telephone = entries["Telephone"].get()
+    Email = entries["Email"].get()
+    Joining = entries["Joining the company"].get()
+    Pay = entries["Pay"].get()
+    Pension = entries["Pension start date"].get()
 
-    Email_entry = form_entries["Email"]
-    Email = telephone_entry.get()
-
-    Join_entry = form_entries["Joining the company"]
-    Join = telephone_entry.get()
-
-    Pension_entry = form_entries["Joining the company"]
-    Pension = telephone_entry.get()
-
-    pay_entry = form_entries["Pay"]
-    pay = telephone_entry.get()
-
-
-    #Is this a Telephone Nummber
     try:
-        int(telephone)
-        # this Value is a nummber
+        float(Telephone)
+       #This Value is a Nummber
+        print("zahl")
     except ValueError:
-        # This Value is not a Nummber
-        telephone_entry.config(fg="red")
-
-    # Is Money a integer
-    try:
-        float(pay)
-        # this Value is a nummber
-    except ValueError:
-        # This Value is not a Nummber
-        pay_entry.config(fg="red")
-
-    #This is a Complete mail
-    pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-    if re.match(pattern, Email):
-        return True
-    else:
-        Email_entry.config(fg="red")
-
-    #Is this a Date (Join)
-    try:
-        datetime.strptime(Join, "%d.%m.%Y")
-        return True
-    except ValueError:
-        Join_entry.config(fg="red")
-
-    # Is this a Date (Pension)
-    try:
-        datetime.strptime(Pension, "%d.%m.%Y")
-        return True
-    except ValueError:
-        Pension_entry.config(fg="red")
+        #This Value is nit a Nummber
+        text = entry.get()
+        entry.config(fg="red")
+        print("test")
 
 
 def makeform(root, fields):

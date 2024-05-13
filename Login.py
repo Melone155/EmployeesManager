@@ -18,15 +18,12 @@ def LoginScreen(root):
     label = tk.Label(root, image=tk_image)
     label.image = tk_image
     label.pack(pady=20)
-
-    # User
     Userlabe = tk.Label(root, text="Username", font=("Helvetica", 16))
     Userlabe.place(x=336, y=284)
 
     Userentry = tk.Entry(root)
     Userentry.place(x=440, y=290)
 
-    # Password
     passwordlabe = tk.Label(root, text="Password", font=("Helvetica", 16))
     passwordlabe.place(x=336, y=319)
 
@@ -64,11 +61,9 @@ def Login(User, Password, root):
         labe.place(x=270, y=410)
 
 def UserRequest(User, Password):
-    # Laden der YAML-Datei
     with open('Config/User.yaml', 'r') as file:
         userdata = yaml.safe_load(file)
 
-    # Überprüfen, ob der Benutzer "Admin" vorhanden ist und das Passwort "admin" hat
     for user in userdata.get('User', []):
         if user.get(User) == Password:
             return True

@@ -19,7 +19,7 @@ def NormalScreen(root):
     options = tk.Label(root, text="Settings", font=("Helvetica", 16), bg="white")
     options.place(x=20, y=11)
 
-    add.bind("<Button-1>", lambda event: AddEmployee.AddEmployee(event, root))
+    add.bind("<Button-1>", lambda event: AddEmployee.AddEmployee(root))
     options.bind("<Button-1>", lambda event: Settingsmenu(root))
 
 
@@ -47,3 +47,14 @@ def Settingsmenu(root):
             widget.destroy()
         OpenMenu = True
         NormalScreen(root)
+
+#def display_yaml_data(root, file_path):
+#    data = load_yaml_data(file_path)#
+#
+#    # Erstellen des Textwidgets
+#    text_area = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=40, height=10)
+#    text_area.pack(expand=True, fill="both")
+
+    # Hinzufügen der Daten zum Textwidget
+ #   text_area.insert(tk.INSERT, yaml.dump(data, default_flow_style=False))
+#    text_area.configure(state='disabled')
