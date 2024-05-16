@@ -1,7 +1,9 @@
+import os
 import tkinter as tk
 from tkinter import *
 
 import customtkinter
+import yaml
 from customtkinter.windows.widgets import ctk_button
 
 import re
@@ -11,7 +13,6 @@ from datetime import datetime
 import EmployeeManager
 
 fields = "Last Name", "First Name", "Job", "Country", "Address", "Telephone", "Email", "Position", "Joining the company", "Pay", "Pension start date"
-
 
 def AddEmployee(root):
     for widget in root.winfo_children():
@@ -39,7 +40,7 @@ def AddEmployee(root):
     Save_Button = ctk_button.CTkButton(
         master=root,
         text="Save",
-        command= lambda: Save(),
+        command= lambda: Save(root),
         font=main_font,
         text_color="black",
         height=40,
@@ -55,59 +56,44 @@ def AddEmployee(root):
     Save_Button.place(x=400, y=500)
 
 
-def Save():
-    telephone_entry = form_entries["Telephone"]
-    telephone = telephone_entry.get()
+def Save(root):
+    global form_entries
+    data = {}
 
-    Email_entry = form_entries["Email"]
-    Email = telephone_entry.get()
+    for field in fields:
+        entry = form_entries[field]
+        value = entry.get()
+        if not value:
+            user = tk.Label(root, text="Something is not correct or something is missing please check your input" ,fg="red", font=("Helvetica", 16), bg="white")
+            user.place(x=100, y=451)
 
-    Join_entry = form_entries["Joining the company"]
-    Join = telephone_entry.get()
+            entry.config(fg="red")
+            return
+        data[field] = value
 
-    Pension_entry = form_entries["Joining the company"]
-    Pension = telephone_entry.get()
+        if field == "Telephone" and not value.isdigit():
+            entry.config(fg="red")
+            return
+        if field == "Email" and not re.match(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", value):
+            entry.config(fg="red")
+            return
+        if field in ["Joining the company", "Pension start date"]:
+            try:
+                datetime.strptime(value, "%d.%m.%Y")
+            except ValueError:
+                entry.config(fg="red")
+                return
+        if field == "Pay":
+            try:
+                float(value)
+            except ValueError:
+                entry.config(fg="red")
+                return
 
-    pay_entry = form_entries["Pay"]
-    pay = telephone_entry.get()
+    save_yml(data)
 
-
-    #Is this a Telephone Nummber
-    try:
-        int(telephone)
-        # this Value is a nummber
-    except ValueError:
-        # This Value is not a Nummber
-        telephone_entry.config(fg="red")
-
-    # Is Money a integer
-    try:
-        float(pay)
-        # this Value is a nummber
-    except ValueError:
-        # This Value is not a Nummber
-        pay_entry.config(fg="red")
-
-    #This is a Complete mail
-    pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-    if re.match(pattern, Email):
-        return True
-    else:
-        Email_entry.config(fg="red")
-
-    #Is this a Date (Join)
-    try:
-        datetime.strptime(Join, "%d.%m.%Y")
-        return True
-    except ValueError:
-        Join_entry.config(fg="red")
-
-    # Is this a Date (Pension)
-    try:
-        datetime.strptime(Pension, "%d.%m.%Y")
-        return True
-    except ValueError:
-        Pension_entry.config(fg="red")
+    save_yml(data)
+    print("Save")
 
 
 def makeform(root, fields):
@@ -122,3 +108,20 @@ def makeform(root, fields):
         ent.pack(side=LEFT, fill=X)
         entries[field] = ent
     return entries
+
+def save_yml(data):
+    file_path = "Config/Employees.yaml"
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as file:
+            existing_data = yaml.safe_load(file) or {}
+    else:
+        existing_data = {}
+
+    if 'Employees' not in existing_data:
+        existing_data['Employees'] = {}
+
+    next_id = len(existing_data['Employees']) + 1
+    existing_data['Employees'][next_id] = data
+
+    with open(file_path, 'w') as file:
+        yaml.dump(existing_data, file, default_flow_style=False)

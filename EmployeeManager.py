@@ -1,45 +1,46 @@
+import os
 import tkinter as tk
-from PIL import Image, ImageTk
+from tkinter import Frame, Label, Button
+import yaml
 
 import AddEmployee
+
 OpenMenu = True
+
 def NormalScreen(root):
     for widget in root.winfo_children():
         widget.destroy()
 
-    canvas = tk.Canvas(root, width=900, height=50)
-    canvas.pack()
-
-    bg_color = "#FFFFFF"
-    canvas.create_rectangle(0, 0, 1000, 50, fill=bg_color, outline="")
+    canvas = tk.Canvas(root, width=900, height=50, bg="#FFFFFF")
+    canvas.grid(row=0, column=0, columnspan=2, sticky='ew')
 
     add = tk.Label(root, text="Add", font=("Helvetica", 16), bg="white")
-    add.place(x=840, y=11)
+    add.grid(row=0, column=1, sticky='e', padx=20)
 
     options = tk.Label(root, text="Settings", font=("Helvetica", 16), bg="white")
-    options.place(x=20, y=11)
+    options.grid(row=0, column=0, sticky='w', padx=20)
 
     add.bind("<Button-1>", lambda event: AddEmployee.AddEmployee(root))
     options.bind("<Button-1>", lambda event: Settingsmenu(root))
 
+    data = load_data()
+    display_data(root, data)
+
 
 def Settingsmenu(root):
     global OpenMenu
-    if OpenMenu == True:
-        canvas = tk.Canvas(root, width=10000, height=10000)
-        canvas.pack()
+    if OpenMenu:
+        settings_frame = Frame(root, bg="#FFFFFF")
+        settings_frame.grid(row=1, column=0, columnspan=2, sticky='nsew')
 
-        bg_color = "#FFFFFF"
-        canvas.create_rectangle(0, 0, 100, 1000, fill=bg_color, outline="")
+        user = tk.Label(settings_frame, text="User", font=("Helvetica", 16), bg="white")
+        user.grid(row=0, column=0, sticky='w', padx=10, pady=5)
 
-        user = tk.Label(root, text="User", font=("Helvetica", 16), bg="white")
-        user.place(x=10, y=81)
+        importdata = tk.Label(settings_frame, text="Import", font=("Helvetica", 16), bg="white")
+        importdata.grid(row=1, column=0, sticky='w', padx=10, pady=5)
 
-        importdata = tk.Label(root, text="Import", font=("Helvetica", 16), bg="white")
-        importdata.place(x=10, y=121)
-
-        export = tk.Label(root, text="Export", font=("Helvetica", 16), bg="white")
-        export.place(x=10, y=161)
+        export = tk.Label(settings_frame, text="Export", font=("Helvetica", 16), bg="white")
+        export.grid(row=2, column=0, sticky='w', padx=10, pady=5)
 
         OpenMenu = False
     else:
@@ -48,13 +49,50 @@ def Settingsmenu(root):
         OpenMenu = True
         NormalScreen(root)
 
-#def display_yaml_data(root, file_path):
-#    data = load_yaml_data(file_path)#
-#
-#    # Erstellen des Textwidgets
-#    text_area = scrolledtext.ScrolledText(root, wrap=tk.WORD, width=40, height=10)
-#    text_area.pack(expand=True, fill="both")
+def load_data():
+    file_path = "Config/Employees.yaml"
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as file:
+            data = yaml.safe_load(file) or {}
+        return data.get('Employees', {})
+    return {}
 
-    # Hinzufügen der Daten zum Textwidget
- #   text_area.insert(tk.INSERT, yaml.dump(data, default_flow_style=False))
-#    text_area.configure(state='disabled')
+def display_data(root, data):
+    # Nur den Datenanzeigebereich löschen
+    for widget in root.grid_slaves():
+        if int(widget.grid_info()["row"]) > 0:  # Behalte die erste Zeile (Navbar)
+            widget.grid_forget()
+
+    # Create a container frame to hold the main frame and add padding
+    container = Frame(root)
+    container.grid(row=1, column=0, columnspan=2, padx=50, pady=50, sticky='nsew')
+
+    # Create a main frame inside the container
+    main_frame = Frame(container)
+    main_frame.pack(padx=50, pady=50, expand=True, fill='both')
+
+    row = 0
+    for emp_id, details in data.items():
+        frame = Frame(main_frame, borderwidth=1, relief="solid", pady=5, padx=5)
+        frame.grid(row=row, column=0, padx=10, pady=5, sticky='ew')
+
+        name = f"{details['Last Name']}, {details['First Name']}"
+        name_label = Label(frame, text=name, font=("Helvetica", 16))
+        name_label.pack(side="left", padx=5, pady=5)
+
+        view_button = Button(frame, text=">", font=("Helvetica", 16), command=lambda: print("SOON"))
+        view_button.pack(side="right", padx=5, pady=5)
+
+        row += 1
+
+    # Configure row and column weight for better resizing behavior
+    root.grid_columnconfigure(0, weight=1)
+    root.grid_rowconfigure(1, weight=1)
+    main_frame.grid_columnconfigure(0, weight=1)
+
+def view_details(emp_id, data):
+    details = data.get(emp_id)
+    if details:
+        # Hier kannst du eine neue Seite oder ein Popup-Fenster anzeigen, um die Details anzuzeigen.
+        print(f"Details for {emp_id}: {details}")
+

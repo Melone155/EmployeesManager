@@ -1,37 +1,95 @@
 import os
+import tkinter as tk
+from tkinter import Frame, Label, Entry, TOP, X, LEFT
+import re
+from datetime import datetime
 import yaml
 
-def CreateConfigs(Status, Host, Username, Password, Database):
+fields = ["Last Name", "First Name", "Job", "Country", "Address", "Telephone", "Email", "Position", "Joining the company", "Pay", "Pension start date"]
 
-    # Path to the YAML files
-    MySQL = 'Config/MySQL.yaml'
-    Employees = 'Config/Employees.yaml'
-    User = 'Config/User.yaml'
+def is_valid_email(email):
+    pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+    return re.match(pattern, email) is not None
 
-    MySQLdata = {
-        "MySQL": [
-            {'Status' : Status, 'Host': Host, 'User': Username, 'Password': Password, "Database": Database}
-        ]
-    }
+def is_valid_date(date_string, date_format="%Y-%m-%d"):
+    try:
+        datetime.strptime(date_string, date_format)
+        return True
+    except ValueError:
+        return False
 
-    Employeesdata = {
-        "Employees": [
-            #{'Name': 'Max Mustermann', 'Alter': 30, 'Position': 'Manager'}
-        ]
-    }
+def write_to_yaml(file_path, data):
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as file:
+            existing_data = yaml.safe_load(file) or {}
+    else:
+        existing_data = {}
 
-    Userdata = {
-        "User": [
-            {'Admin': 'admin'}
-        ]
-    }
+    if 'Employees' not in existing_data:
+        existing_data['Employees'] = {}
 
-    with open(MySQL, 'w') as MySQLfile:
-        yaml.dump(MySQLdata, MySQLfile)
+    next_id = len(existing_data['Employees']) + 1
+    existing_data['Employees'][next_id] = data
 
-    with open(Employees, 'w') as Employeesfile:
-        yaml.dump(Employeesdata, Employeesfile)
+    with open(file_path, 'w') as file:
+        yaml.dump(existing_data, file, default_flow_style=False)
 
-    with open(User, 'w') as Userfile:
-        yaml.dump(Userdata, Userfile)
+def AddEmployee(root):
+    for widget in root.winfo_children():
+        widget.destroy()
 
+    form_entries = makeform(root, fields)
+
+    Save_Button = tk.Button(
+        root,
+        text="Save",
+        command=lambda: validate_and_save(form_entries)
+    )
+    Save_Button.pack()
+
+def validate_and_save(entries):
+    valid = True
+    data = {}
+    for field, entry in entries.items():
+        value = entry.get()
+        if field == "Email" and not is_valid_email(value):
+            entry.config(fg="red")
+            valid = False
+        elif field == "Pension start date" and not is_valid_date(value):
+            entry.config(fg="red")
+            valid = False
+        elif field == "Telephone":
+            if not value.isdigit():
+                entry.config(fg="red")
+                valid = False
+            else:
+                entry.config(fg="black")
+        else:
+            entry.config(fg="black")
+        data[field] = value
+
+    if valid:
+        write_to_yaml("employee_data.yaml", data)
+        print("Daten erfolgreich gespeichert.")
+    else:
+        print("Fehlerhafte Eingaben. Bitte korrigieren Sie die markierten Felder.")
+
+def makeform(root, fields):
+    entries = {}
+    for field in fields:
+        row = Frame(root)
+        lab = Label(row, text=field, width=20, anchor='w')
+        ent = Entry(row, width=30)
+        row.pack(side=TOP, fill=X, padx=5, pady=5)
+        lab.pack(side=LEFT)
+        ent.pack(side=LEFT, fill=X)
+        entries[field] = ent
+    return entries
+
+# Beispielaufruf zum Testen des Formulars
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.title("Employee Manager")
+    root.geometry("900x600")
+    AddEmployee(root)
+    root.mainloop()

@@ -1,87 +1,98 @@
+import os
 import tkinter as tk
-from tkinter import *
+from tkinter import Frame, Label, Button
+import yaml
 
-import customtkinter
-from customtkinter.windows.widgets import ctk_button
+import AddEmployee
 
-import EmployeeManager
+OpenMenu = True
 
-fields = "Last Name", "First Name", "Job", "Country", "Address", "Telephone", "Email", "Position", "Joining the company", "Pay", "Pension start date"
-
-
-def AddEmployee(root):
+def NormalScreen(root):
     for widget in root.winfo_children():
         widget.destroy()
 
-    #Navbar
+    canvas = tk.Canvas(root, width=900, height=50, bg="#FFFFFF")
+    canvas.grid(row=0, column=0, columnspan=2, sticky='ew')
 
-    canvas = tk.Canvas(root, width=900, height=50)
-    canvas.pack()
+    add = tk.Label(root, text="Add", font=("Helvetica", 16), bg="white")
+    add.grid(row=0, column=1, sticky='e', padx=20)
 
-    bg_color = "#FFFFFF"
-    canvas.create_rectangle(0, 0, 1000, 50, fill=bg_color, outline="")
+    options = tk.Label(root, text="Settings", font=("Helvetica", 16), bg="white")
+    options.grid(row=0, column=0, sticky='w', padx=20)
 
-    back = tk.Label(root, text="Back", font=("Helvetica", 16), bg="white")
-    back.place(x=20, y=11)
+    add.bind("<Button-1>", lambda event: AddEmployee.AddEmployee(root))
+    options.bind("<Button-1>", lambda event: Settingsmenu(root))
 
-    back.bind("<Button-1>", lambda event: EmployeeManager.NormalScreen(root))
-
-    #Formular
-    form_entries = makeform(root, fields)
-
-    #Save Button
-    main_font = customtkinter.CTkFont(family="Helvetica", size=12)
-    Save_Button = ctk_button.CTkButton(
-        master=root,
-        text="Save",
-        command=lambda: lambda event, entry=ent: get_input(event, entry),
-        font=main_font,
-        text_color="black",
-        height=40,
-        width=120,
-        border_width=2,
-        corner_radius=3,
-        border_color="#d3d3d3",
-        bg_color="#ffffff",
-        fg_color="#ffffff",
-        hover=False
-    )
-
-    Save_Button.place(x=400, y=500)
+    data = load_data()
+    display_data(root, data)
 
 
-def get_input(entries, entry):
-    LastName = entries["Last Name"].get()
-    FirstName = entries["First Name"].get()
-    Job = entries["Job"].get()
-    Country = entries["Country"].get()
-    Address = entries["Address"].get()
-    Telephone = entries["Telephone"].get()
-    Email = entries["Email"].get()
-    Joining = entries["Joining the company"].get()
-    Pay = entries["Pay"].get()
-    Pension = entries["Pension start date"].get()
+def Settingsmenu(root):
+    global OpenMenu
+    if OpenMenu:
+        settings_frame = Frame(root, bg="#FFFFFF")
+        settings_frame.grid(row=1, column=0, columnspan=2, sticky='nsew')
 
-    try:
-        float(Telephone)
-       #This Value is a Nummber
-        print("zahl")
-    except ValueError:
-        #This Value is nit a Nummber
-        text = entry.get()
-        entry.config(fg="red")
-        print("test")
+        user = tk.Label(settings_frame, text="User", font=("Helvetica", 16), bg="white")
+        user.grid(row=0, column=0, sticky='w', padx=10, pady=5)
 
+        importdata = tk.Label(settings_frame, text="Import", font=("Helvetica", 16), bg="white")
+        importdata.grid(row=1, column=0, sticky='w', padx=10, pady=5)
 
-def makeform(root, fields):
-    entries = {}
-    global ent
-    for field in fields:
-        row = Frame(root)
-        lab = Label(row, text=field, width=17, font=("Helvetica", 12), anchor='w')
-        ent = Entry(row, width=30, font=("Helvetica", 12))
-        row.pack(side=TOP, fill=X, padx=5, pady=5)
-        lab.pack(side=LEFT)
-        ent.pack(side=LEFT, fill=X)
-        entries[field] = ent
-    return entries
+        export = tk.Label(settings_frame, text="Export", font=("Helvetica", 16), bg="white")
+        export.grid(row=2, column=0, sticky='w', padx=10, pady=5)
+
+        OpenMenu = False
+    else:
+        for widget in root.winfo_children():
+            widget.destroy()
+        OpenMenu = True
+        NormalScreen(root)
+
+def load_data():
+    file_path = "Config/Employees.yaml"
+    if os.path.exists(file_path):
+        with open(file_path, 'r') as file:
+            data = yaml.safe_load(file) or {}
+        return data.get('Employees', {})
+    return {}
+
+def display_data(root, data):
+    # Nur den Datenanzeigebereich löschen
+    for widget in root.grid_slaves():
+        if int(widget.grid_info()["row"]) > 0:  # Behalte die erste Zeile (Navbar)
+            widget.grid_forget()
+
+    # Create a container frame to hold the main frame and add padding
+    container = Frame(root)
+    container.grid(row=1, column=0, columnspan=2, padx=50, pady=50, sticky='nsew')
+
+    # Create a main frame inside the container
+    main_frame = Frame(container)
+    main_frame.pack(padx=50, pady=50, expand=True, fill='both')
+
+    row = 0
+    for emp_id, details in data.items():
+        frame = Frame(main_frame, borderwidth=1, relief="solid", pady=5, padx=5)
+        frame.grid(row=row, column=0, padx=10, pady=5, sticky='ew')
+
+        name = f"{details['Last Name']}, {details['First Name']}"
+        name_label = Label(frame, text=name, font=("Helvetica", 16))
+        name_label.pack(side="left", padx=5, pady=5)
+
+        view_button = Button(frame, text=">", font=("Helvetica", 16), command=lambda emp_id=emp_id: view_details(emp_id, data))
+        view_button.pack(side="right", padx=5, pady=5)
+
+        row += 1
+
+    # Configure row and column weight for better resizing behavior
+    root.grid_columnconfigure(0, weight=1)
+    root.grid_rowconfigure(1, weight=1)
+    main_frame.grid_columnconfigure(0, weight=1)
+
+def view_details(emp_id, data):
+    details = data.get(emp_id)
+    if details:
+        # Hier kannst du eine neue Seite oder ein Popup-Fenster anzeigen, um die Details anzuzeigen.
+        print(f"Details for {emp_id}: {details}")
+
