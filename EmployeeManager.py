@@ -65,11 +65,11 @@ def display_data(root, data):
 
     # Create a container frame to hold the main frame and add padding
     container = Frame(root)
-    container.grid(row=1, column=0, columnspan=2, padx=50, pady=50, sticky='nsew')
+    container.grid(row=1, column=0, columnspan=2, padx=0, pady=0, sticky='nsew')
 
     # Create a main frame inside the container
     main_frame = Frame(container)
-    main_frame.pack(padx=50, pady=50, expand=True, fill='both')
+    main_frame.pack(padx=0, pady=0, expand=True, fill='both')
 
     row = 0
     for emp_id, details in data.items():
@@ -78,7 +78,7 @@ def display_data(root, data):
 
         name = f"{details['Last Name']}, {details['First Name']}"
         name_label = Label(frame, text=name, font=("Helvetica", 16))
-        name_label.pack(side="left", padx=5, pady=5)
+        name_label.pack(side="left", padx=0, pady=0)
 
         view_button = Button(frame, text=">", font=("Helvetica", 16), command=lambda: print("SOON"))
         view_button.pack(side="right", padx=5, pady=5)
@@ -95,4 +95,3 @@ def view_details(emp_id, data):
     if details:
         # Hier kannst du eine neue Seite oder ein Popup-Fenster anzeigen, um die Details anzuzeigen.
         print(f"Details for {emp_id}: {details}")
-

@@ -19,7 +19,6 @@ def AddEmployee(root):
         widget.destroy()
 
     # Navbar
-
     canvas = tk.Canvas(root, width=900, height=50)
     canvas.pack()
 
@@ -29,7 +28,11 @@ def AddEmployee(root):
     back = tk.Label(root, text="Back", font=("Helvetica", 16), bg="white")
     back.place(x=20, y=11)
 
+    edit = tk.Label(root, text="Edit", font=("Helvetica", 16), bg="white")
+    edit.grid(row=0, column=1, sticky='e', padx=20)
+
     back.bind("<Button-1>", lambda event: EmployeeManager.NormalScreen(root))
+    edit.bind("<Button-1>", lambda event: print(""))
 
     # Formular
     global form_entries

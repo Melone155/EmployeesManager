@@ -1,9 +1,11 @@
 import os
 import tkinter as tk
 from tkinter import Frame, Label, Button
+from PIL import Image, ImageTk
 import yaml
 
 import AddEmployee
+import EmployeeDetails
 
 OpenMenu = True
 
@@ -14,6 +16,22 @@ def NormalScreen(root):
     canvas = tk.Canvas(root, width=900, height=50, bg="#FFFFFF")
     canvas.grid(row=0, column=0, columnspan=2, sticky='ew')
 
+    # Bild laden und skalieren
+    image_path = "Picture/img.png"
+    if os.path.exists(image_path):
+        image = Image.open(image_path)
+        image = image.resize((460, 327))
+        tk_image = ImageTk.PhotoImage(image)
+
+        # Bild anzeigen
+        label = tk.Label(root, image=tk_image)
+        label.image = tk_image  # Referenz speichern
+        label.grid(pady=0, row=1, column=0, columnspan=2)  # Columnspan hinzugefügt
+
+    else:
+        print("Bild nicht gefunden:", image_path)
+
+    # Hinzufügen und Einstellungs-Labels
     add = tk.Label(root, text="Add", font=("Helvetica", 16), bg="white")
     add.grid(row=0, column=1, sticky='e', padx=20)
 
@@ -25,7 +43,6 @@ def NormalScreen(root):
 
     data = load_data()
     display_data(root, data)
-
 
 def Settingsmenu(root):
     global OpenMenu
@@ -60,16 +77,14 @@ def load_data():
 def display_data(root, data):
     # Nur den Datenanzeigebereich löschen
     for widget in root.grid_slaves():
-        if int(widget.grid_info()["row"]) > 0:  # Behalte die erste Zeile (Navbar)
+        if int(widget.grid_info()["row"]) > 0:
             widget.grid_forget()
 
-    # Create a container frame to hold the main frame and add padding
     container = Frame(root)
-    container.grid(row=1, column=0, columnspan=2, padx=50, pady=50, sticky='nsew')
+    container.grid(row=1, column=0, columnspan=2, padx=0, pady=1, sticky='nsew')
 
-    # Create a main frame inside the container
     main_frame = Frame(container)
-    main_frame.pack(padx=50, pady=50, expand=True, fill='both')
+    main_frame.pack(padx=0, pady=0, side="left", expand=False, fill='both')
 
     row = 0
     for emp_id, details in data.items():
@@ -80,7 +95,7 @@ def display_data(root, data):
         name_label = Label(frame, text=name, font=("Helvetica", 16))
         name_label.pack(side="left", padx=5, pady=5)
 
-        view_button = Button(frame, text=">", font=("Helvetica", 16), command=lambda emp_id=emp_id: view_details(emp_id, data))
+        view_button = Button(frame, text=">", font=("Helvetica", 16), command=lambda emp_id=emp_id: EmployeeDetails.Details(root, emp_id))
         view_button.pack(side="right", padx=5, pady=5)
 
         row += 1
@@ -96,3 +111,9 @@ def view_details(emp_id, data):
         # Hier kannst du eine neue Seite oder ein Popup-Fenster anzeigen, um die Details anzuzeigen.
         print(f"Details for {emp_id}: {details}")
 
+# Hauptfenster erstellen
+if __name__ == "__main__":
+    root = tk.Tk()
+    root.geometry("900x600")
+    NormalScreen(root)
+    root.mainloop()
