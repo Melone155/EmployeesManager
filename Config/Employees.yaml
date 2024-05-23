@@ -1,5 +1,13 @@
 Employees:
   1:
-    Joining the company: 20.10.2039
-    Pay: '23'
-    Pension start date: 20.10.2039
+    Address: Eppingen
+    Country: Germany
+    Email: maximilian.wolf@ibsolution.com
+    First Name: Maximilian
+    Job: IT
+    Joining the company: 01.08.2024
+    Last Name: Wolf
+    Pay: '800'
+    Pension start date: 01.08.2024
+    Position: IT_Admin
+    Telephone: '015225446050'

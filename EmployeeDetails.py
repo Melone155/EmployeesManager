@@ -21,37 +21,51 @@ def Details(root, id):
     canvas.create_rectangle(0, 0, 1000, 50, fill=bg_color, outline="")
 
     back = tk.Label(root, text="Back", font=("Helvetica", 16), bg="white")
-    back.place(x=20, y=11)
+    back.place(x=50, y=11)
 
-    add = tk.Label(root, text="Add", font=("Helvetica", 16), bg="white")
-    add.grid(row=0, column=1, sticky='e', padx=20)
+    edit = tk.Label(root, text="Edit", font=("Helvetica", 16), bg="white")
+    edit.place(x=830, y=11)
 
     back.bind("<Button-1>", lambda event: EmployeeManager.NormalScreen(root))
 
-    #Body
-    name = tk.Label(root, text="Name:", font=("Helvetica", 16), bg="white")
-    name.place(x=20, y=11)
+    strem = open("Config/Employees.yaml")
+    dictionary = yaml.safe_load(strem)
 
-    surname = tk.Label(root, text="Surname:", font=("Helvetica", 16), bg="white")
-    surname.place(x=20, y=11)
+    #First Name
+    name = tk.Label(root, text="Name:", font=("Helvetica", 16))
+    name.place(x=50, y=60)
 
-    age = tk.Label(root, text="Age:", font=("Helvetica", 16), bg="white")
+    namefill = tk.Label(root, text=dictionary["Employees"][id]["First Name"], font=("Helvetica", 16))
+    namefill.place(x=60, y=90)
+
+    #Last Name
+    surname = tk.Label(root, text="Surname:", font=("Helvetica", 16))
+    surname.place(x=210, y=62)
+
+    surnamefill = tk.Label(root, text=dictionary["Employees"][id]["Last Name"], font=("Helvetica", 16))
+    surnamefill.place(x=60, y=90)
+
+    #Age
+    age = tk.Label(root, text="Age:", font=("Helvetica", 16))
     age.place(x=20, y=11)
 
-    jobtitel = tk.Label(root, text="Job Titel", font=("Helvetica", 16), bg="white")
+    agefill = tk.Label(root, text=dictionary["Employees"][id]["Last Name"], font=("Helvetica", 16))
+    agefill.place(x=60, y=90)
+
+    jobtitel = tk.Label(root, text="Job Titel", font=("Helvetica", 16))
     jobtitel.place(x=20, y=11)
 
-    email = tk.Label(root, text="Age", font=("Helvetica", 16), bg="white")
+    email = tk.Label(root, text="Age", font=("Helvetica", 16))
     email.place(x=20, y=11)
 
-    telephone = tk.Label(root, text="Telephone", font=("Helvetica", 16), bg="white")
+    telephone = tk.Label(root, text="Telephone", font=("Helvetica", 16))
     telephone.place(x=20, y=11)
 
-    country = tk.Label(root, text="Country", font=("Helvetica", 16), bg="white")
+    country = tk.Label(root, text="Country", font=("Helvetica", 16))
     country.place(x=20, y=11)
 
-    address = tk.Label(root, text="Address", font=("Helvetica", 16), bg="white")
+    address = tk.Label(root, text="Address", font=("Helvetica", 16))
     address.place(x=20, y=11)
 
-    join = tk.Label(root, text="Age", font=("Helvetica", 16), bg="white")
+    join = tk.Label(root, text="Age", font=("Helvetica", 16))
     age.place(x=20, y=11)

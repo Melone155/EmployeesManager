@@ -4,6 +4,7 @@ from tkinter import Frame, Label, Button
 import yaml
 
 import AddEmployee
+import EmployeeDetails
 
 OpenMenu = True
 
@@ -25,7 +26,6 @@ def NormalScreen(root):
 
     data = load_data()
     display_data(root, data)
-
 
 def Settingsmenu(root):
     global OpenMenu
@@ -63,35 +63,31 @@ def display_data(root, data):
         if int(widget.grid_info()["row"]) > 0:  # Behalte die erste Zeile (Navbar)
             widget.grid_forget()
 
-    # Create a container frame to hold the main frame and add padding
-    container = Frame(root)
-    container.grid(row=1, column=0, columnspan=2, padx=0, pady=0, sticky='nsew')
 
-    # Create a main frame inside the container
+    container = Frame(root)
+    container.grid(row=1, column=0, columnspan=2, padx=3, pady=3, sticky='nsew')
+
     main_frame = Frame(container)
     main_frame.pack(padx=0, pady=0, expand=True, fill='both')
 
-    row = 0
-    for emp_id, details in data.items():
-        frame = Frame(main_frame, borderwidth=1, relief="solid", pady=5, padx=5)
-        frame.grid(row=row, column=0, padx=10, pady=5, sticky='ew')
+    if not data:
+        no_data_label = Label(main_frame, text="No employees datas found.", font=("Helvetica", 16))
+        no_data_label.pack(padx=0, pady=0)
+    else:
+        row = 0
+        for emp_id, details in data.items():
+            frame = Frame(main_frame, borderwidth=1, relief="solid", pady=5, padx=5)
+            frame.grid(row=row, column=0, padx=0, pady=0, sticky='ew')
 
-        name = f"{details['Last Name']}, {details['First Name']}"
-        name_label = Label(frame, text=name, font=("Helvetica", 16))
-        name_label.pack(side="left", padx=0, pady=0)
+            name = f"{details['Last Name']}, {details['First Name']}"
+            name_label = Label(frame, text=name, font=("Helvetica", 16))
+            name_label.pack(side="left", padx=5, pady=5)
 
-        view_button = Button(frame, text=">", font=("Helvetica", 16), command=lambda: print("SOON"))
-        view_button.pack(side="right", padx=5, pady=5)
+            view_button = Button(frame, text=">", font=("Helvetica", 16), command=lambda: EmployeeDetails.Details(root, emp_id))
+            view_button.pack(side="right", padx=5, pady=5)
 
-        row += 1
+            row += 1
 
-    # Configure row and column weight for better resizing behavior
     root.grid_columnconfigure(0, weight=1)
     root.grid_rowconfigure(1, weight=1)
     main_frame.grid_columnconfigure(0, weight=1)
-
-def view_details(emp_id, data):
-    details = data.get(emp_id)
-    if details:
-        # Hier kannst du eine neue Seite oder ein Popup-Fenster anzeigen, um die Details anzuzeigen.
-        print(f"Details for {emp_id}: {details}")

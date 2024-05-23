@@ -1,11 +1,14 @@
-import os
 import tkinter as tk
-from tkinter import Frame, Label, Entry, TOP, X, LEFT
+from tkinter import *
 import re
 from datetime import datetime
 import yaml
+import os
+import customtkinter
+from customtkinter.windows.widgets import ctk_button
+import EmployeeManager
 
-fields = ["Last Name", "First Name", "Job", "Country", "Address", "Telephone", "Email", "Position", "Joining the company", "Pay", "Pension start date"]
+fields = "Last Name", "First Name", "Job", "Country", "Address", "Telephone", "Email", "Position", "Joining the company", "Pay", "Pension start date"
 
 def is_valid_email(email):
     pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
@@ -38,14 +41,40 @@ def AddEmployee(root):
     for widget in root.winfo_children():
         widget.destroy()
 
+    # Navbar
+    canvas = tk.Canvas(root, width=900, height=50)
+    canvas.pack()
+
+    bg_color = "#FFFFFF"
+    canvas.create_rectangle(0, 0, 1000, 50, fill=bg_color, outline="")
+
+    back = tk.Label(root, text="Back", font=("Helvetica", 16), bg="white")
+    back.place(x=20, y=11)
+
+    back.bind("<Button-1>", lambda event: EmployeeManager.NormalScreen(root))
+
+    # Formular
     form_entries = makeform(root, fields)
 
-    Save_Button = tk.Button(
-        root,
+    # Save Button
+    main_font = customtkinter.CTkFont(family="Helvetica", size=12)
+    Save_Button = ctk_button.CTkButton(
+        master=root,
         text="Save",
-        command=lambda: validate_and_save(form_entries)
+        command=lambda: validate_and_save(form_entries),
+        font=main_font,
+        text_color="black",
+        height=40,
+        width=120,
+        border_width=2,
+        corner_radius=3,
+        border_color="#d3d3d3",
+        bg_color="#ffffff",
+        fg_color="#ffffff",
+        hover=False
     )
-    Save_Button.pack()
+
+    Save_Button.place(x=400, y=500)
 
 def validate_and_save(entries):
     valid = True
@@ -59,11 +88,12 @@ def validate_and_save(entries):
             entry.config(fg="red")
             valid = False
         elif field == "Telephone":
-            if not value.isdigit():
+            try:
+                float(value)
+                entry.config(fg="black")
+            except ValueError:
                 entry.config(fg="red")
                 valid = False
-            else:
-                entry.config(fg="black")
         else:
             entry.config(fg="black")
         data[field] = value
@@ -72,16 +102,4 @@ def validate_and_save(entries):
         write_to_yaml("employee_data.yaml", data)
         print("Daten erfolgreich gespeichert.")
     else:
-        print("Fehlerhafte Eingaben. Bitte korrigieren Sie die markierten Felder.")
-
-def makeform(root, fields):
-    entries = {}
-    for field in fields:
-        row = Frame(root)
-        lab = Label(row, text=field, width=20, anchor='w')
-        ent = Entry(row, width=30)
-        row.pack(side=TOP, fill=X, padx=5, pady=5)
-        lab.pack(side=LEFT)
-        ent.pack(side=LEFT, fill=X)
-        entries[field] = ent
-    return entries
+        print("Fehlerhafte Eingaben. Bitte kor")

@@ -7,12 +7,11 @@ import yaml
 from customtkinter.windows.widgets import ctk_button
 
 import re
-
 from datetime import datetime
 
 import EmployeeManager
 
-fields = "Last Name", "First Name", "Job", "Country", "Address", "Telephone", "Email", "Position", "Joining the company", "Pay", "Pension start date"
+fields = "Last Name", "First Name", "Age", "Job", "Country", "Address", "Telephone", "Email", "Position", "Joining the company", "Pay", "Pension start date"
 
 def AddEmployee(root):
     for widget in root.winfo_children():
@@ -28,11 +27,7 @@ def AddEmployee(root):
     back = tk.Label(root, text="Back", font=("Helvetica", 16), bg="white")
     back.place(x=20, y=11)
 
-    edit = tk.Label(root, text="Edit", font=("Helvetica", 16), bg="white")
-    edit.grid(row=0, column=1, sticky='e', padx=20)
-
     back.bind("<Button-1>", lambda event: EmployeeManager.NormalScreen(root))
-    edit.bind("<Button-1>", lambda event: print(""))
 
     # Formular
     global form_entries
@@ -43,7 +38,7 @@ def AddEmployee(root):
     Save_Button = ctk_button.CTkButton(
         master=root,
         text="Save",
-        command= lambda: Save(root),
+        command=lambda: Save(root),
         font=main_font,
         text_color="black",
         height=40,
@@ -56,8 +51,7 @@ def AddEmployee(root):
         hover=False
     )
 
-    Save_Button.place(x=400, y=500)
-
+    Save_Button.place(x=400, y=520)
 
 def Save(root):
     global form_entries
@@ -67,14 +61,16 @@ def Save(root):
         entry = form_entries[field]
         value = entry.get()
         if not value:
-            user = tk.Label(root, text="Something is not correct or something is missing please check your input" ,fg="red", font=("Helvetica", 16), bg="white")
-            user.place(x=100, y=451)
-
+            user = tk.Label(root, text="Something is not correct or something is missing. Please check your input.", fg="red", font=("Helvetica", 16), bg="white")
+            user.place(x=100, y=471)
             entry.config(fg="red")
             return
         data[field] = value
 
         if field == "Telephone" and not value.isdigit():
+            entry.config(fg="red")
+            return
+        if field == "Age" and not value.isdigit():
             entry.config(fg="red")
             return
         if field == "Email" and not re.match(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", value):
@@ -94,14 +90,10 @@ def Save(root):
                 return
 
     save_yml(data)
-
-    save_yml(data)
     print("Save")
-
 
 def makeform(root, fields):
     entries = {}
-    global ent
     for field in fields:
         row = Frame(root)
         lab = Label(row, text=field, width=17, font=("Helvetica", 12), anchor='w')
