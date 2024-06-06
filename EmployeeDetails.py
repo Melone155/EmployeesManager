@@ -43,29 +43,65 @@ def Details(root, id):
     surname.place(x=210, y=62)
 
     surnamefill = tk.Label(root, text=dictionary["Employees"][id]["Last Name"], font=("Helvetica", 16))
-    surnamefill.place(x=60, y=90)
+    surnamefill.place(x=220, y=90)
 
     #Age
-    age = tk.Label(root, text="Age:", font=("Helvetica", 16))
-    age.place(x=20, y=11)
+    agelabel = tk.Label(root, text="Age:", font=("Helvetica", 16))
+    agelabel.place(x=350, y=62)
 
-    agefill = tk.Label(root, text=dictionary["Employees"][id]["Last Name"], font=("Helvetica", 16))
-    agefill.place(x=60, y=90)
+    agefill = tk.Label(root, text=dictionary["Employees"][id]["Age"], font=("Helvetica", 16))
+    agefill.place(x=360, y=90)
 
-    jobtitel = tk.Label(root, text="Job Titel", font=("Helvetica", 16))
-    jobtitel.place(x=20, y=11)
+    jobtitel = tk.Label(root, text="Job Titel:", font=("Helvetica", 16))
+    jobtitel.place(x=440, y=62)
 
-    email = tk.Label(root, text="Age", font=("Helvetica", 16))
-    email.place(x=20, y=11)
-
-    telephone = tk.Label(root, text="Telephone", font=("Helvetica", 16))
-    telephone.place(x=20, y=11)
+    jobtitelfill = tk.Label(root, text=dictionary["Employees"][id]["Position"], font=("Helvetica", 16))
+    jobtitelfill.place(x=450, y=90)
 
     country = tk.Label(root, text="Country", font=("Helvetica", 16))
-    country.place(x=20, y=11)
+    country.place(x=600, y=62)
 
-    address = tk.Label(root, text="Address", font=("Helvetica", 16))
-    address.place(x=20, y=11)
+    countryfill = tk.Label(root, text=dictionary["Employees"][id]["Country"], font=("Helvetica", 16))
+    countryfill.place(x=610, y=90)
 
-    join = tk.Label(root, text="Age", font=("Helvetica", 16))
-    age.place(x=20, y=11)
+    email = tk.Label(root, text="Email:", font=("Helvetica", 16))
+    email.place(x=50, y=152)
+
+    mailfill = tk.Label(root, text=dictionary["Employees"][id]["Email"], font=("Helvetica", 16))
+    mailfill.place(x=60, y=178)
+
+    telephone = tk.Label(root, text="Telephone", font=("Helvetica", 16))
+    telephone.place(x=400, y=152)
+
+    telephonefill = tk.Label(root, text=dictionary["Employees"][id]["Telephone"], font=("Helvetica", 16))
+    telephonefill.place(x=410, y=178)
+
+    Job = tk.Label(root, text="Job", font=("Helvetica", 16))
+    Job.place(x=640, y=152)
+
+    Jobfill = tk.Label(root, text=dictionary["Employees"][id]["Job"], font=("Helvetica", 16))
+    Jobfill.place(x=650, y=178)
+
+    JoinCompany = tk.Label(root, text="Joining the Company", font=("Helvetica", 16))
+    JoinCompany.place(x=50, y=220)
+
+    JoinFill = tk.Label(root, text=dictionary["Employees"][id]["Joining the company"], font=("Helvetica", 16))
+    JoinFill.place(x=60, y=250)
+
+    LeaveCompany = tk.Label(root, text="Pension start date", font=("Helvetica", 16))
+    LeaveCompany.place(x=280, y=220)
+
+    LeaveFill = tk.Label(root, text=dictionary["Employees"][id]["Pension start date"], font=("Helvetica", 16))
+    LeaveFill.place(x=290, y=250)
+
+    Pay = tk.Label(root, text="Pay", font=("Helvetica", 16))
+    Pay.place(x=490, y=220)
+
+    PayFill = tk.Label(root, text=dictionary["Employees"][id]["Pay"], font=("Helvetica", 16))
+    PayFill.place(x=500, y=250)
+
+    Adress = tk.Label(root, text="Pay", font=("Helvetica", 16))
+    Adress.place(x=600, y=220)
+
+    PayFill = tk.Label(root, text=dictionary["Employees"][id]["Address"], font=("Helvetica", 16))
+    PayFill.place(x=610, y=250)
