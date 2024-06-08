@@ -6,6 +6,7 @@ import customtkinter
 import yaml
 from customtkinter.windows.widgets import ctk_button
 
+import EditEmployeeDetaisl
 import EmployeeManager
 
 
@@ -27,6 +28,7 @@ def Details(root, id):
     edit.place(x=830, y=11)
 
     back.bind("<Button-1>", lambda event: EmployeeManager.NormalScreen(root))
+    edit.bind("<Button-1>", lambda event: EditEmployeeDetaisl.Edit(root, id))
 
     strem = open("Config/Employees.yaml")
     dictionary = yaml.safe_load(strem)
@@ -100,7 +102,7 @@ def Details(root, id):
     PayFill = tk.Label(root, text=dictionary["Employees"][id]["Pay"], font=("Helvetica", 16))
     PayFill.place(x=500, y=250)
 
-    Adress = tk.Label(root, text="Pay", font=("Helvetica", 16))
+    Adress = tk.Label(root, text="Address:", font=("Helvetica", 16))
     Adress.place(x=600, y=220)
 
     PayFill = tk.Label(root, text=dictionary["Employees"][id]["Address"], font=("Helvetica", 16))
