@@ -5,6 +5,7 @@ import yaml
 
 import AddEmployee
 import EmployeeDetails
+import ManageUser
 
 OpenMenu = True
 
@@ -41,6 +42,8 @@ def Settingsmenu(root):
 
         export = tk.Label(settings_frame, text="Export", font=("Helvetica", 16), bg="white")
         export.grid(row=2, column=0, sticky='w', padx=10, pady=5)
+
+        user.bind("<Button-1>", lambda event: ManageUser.ManageUserOverview(root))
 
         OpenMenu = False
     else:

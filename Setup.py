@@ -75,7 +75,7 @@ def start_Wizard(root):
     YML.place(x=420, y=420)
 
     mysql = tk.Radiobutton(root, text="MySQL", variable=var, value="MySQL")
-    mysql.place(x=420, y=443)
+    #mysql.place(x=420, y=443)
 
     main_font = customtkinter.CTkFont(family="Helvetica", size=12)
 
@@ -163,6 +163,7 @@ def Finishsetup(root):
 
     else:
         YML.CreateConfigs(False, "", "", "", "")
+        Login.LoginScreen(root)
 
 def check_mysql(host, username, password, database, root):
     try:
