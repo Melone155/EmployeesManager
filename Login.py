@@ -8,6 +8,7 @@ from customtkinter.windows.widgets import ctk_button
 import EmployeeManager
 
 IsLogin = False
+loginuser = ""
 
 def LoginScreen(root):
 
@@ -58,8 +59,9 @@ def LoginScreen(root):
 
 def Login(User, Password, root):
     if UserRequest(User, Password):
-       #User login was successful
+        #User login was successful
         EmployeeManager.NormalScreen(root)
+        loginuser = User
     else:
         labe = tk.Label(root, text="The username or password is incorrect try again", font=("Helvetica", 13))
         labe.place(x=270, y=410)

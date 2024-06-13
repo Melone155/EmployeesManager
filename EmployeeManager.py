@@ -4,8 +4,10 @@ from tkinter import Frame, Label, Button, Entry
 import yaml
 
 import AddEmployee
+import ChangePasswort
 import EmployeeDetails
 import ManageUser
+from Login import loginuser
 
 OpenMenu = True
 
@@ -45,13 +47,12 @@ def Settingsmenu(root):
         user = tk.Label(settings_frame, text="User", font=("Helvetica", 16), bg="white")
         user.grid(row=0, column=0, sticky='w', padx=10, pady=5)
 
-        importdata = tk.Label(settings_frame, text="Import", font=("Helvetica", 16), bg="white")
-        importdata.grid(row=1, column=0, sticky='w', padx=10, pady=5)
-
-        export = tk.Label(settings_frame, text="Export", font=("Helvetica", 16), bg="white")
-        export.grid(row=2, column=0, sticky='w', padx=10, pady=5)
+        passwort = tk.Label(settings_frame, text="Passwort", font=("Helvetica", 16), bg="white")
+        passwort.grid(row=1, column=0, sticky='w', padx=10, pady=5)
 
         user.bind("<Button-1>", lambda event: ManageUser.ManageUserOverview(root))
+
+        passwort.bind("<Button-1>", lambda event: ChangePasswort.ChangePasswort(root, loginuser))
 
         OpenMenu = False
     else:
