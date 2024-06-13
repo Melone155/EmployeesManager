@@ -11,6 +11,10 @@ IsLogin = False
 
 def LoginScreen(root):
 
+    # Clear All Old Objects
+    for widget in root.winfo_children():
+        widget.destroy()
+
     image = Image.open("Picture/Logo.png")
     image = image.resize((306, 218))  # Größe anpassen
     tk_image = ImageTk.PhotoImage(image)
