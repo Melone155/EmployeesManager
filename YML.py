@@ -100,10 +100,12 @@ def CreateConfigs(status, database, host, password, user):
     employees = {}
 
     user = {
-        'Admin': [{
-            'Passwort': 'admin',
-            'permission': '*'
-        }]
+        'User': {
+            'Admin': [{
+                'Passwort': 'admin',
+                'permission': '*'
+            }]
+        }
     }
 
     mysql_path = "Config/MySQL.yaml"
