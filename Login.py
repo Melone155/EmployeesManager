@@ -60,11 +60,17 @@ def Login(User, Password, root):
         labe = tk.Label(root, text="The username or password is incorrect try again", font=("Helvetica", 13))
         labe.place(x=270, y=410)
 
-def UserRequest(User, Password):
-    with open('Config/User.yaml', 'r') as file:
-        userdata = yaml.safe_load(file)
+def UserRequest(username, password):
+    try:
+        with open('Config/User.yaml', 'r') as file:
+            userdata = yaml.safe_load(file)
+    except FileNotFoundError:
+        print("User.yaml file not found.")
+        return False
 
-    for user in userdata.get('User', []):
-        if user.get(User) == Password:
-            return True
+    users = userdata.get('User', {})
+    user_info = users.get(username)
+
+    if user_info and user_info.get('Passwort') == password:
+        return True
     return False

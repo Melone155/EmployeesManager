@@ -90,7 +90,7 @@ def Save(root):
                 return
 
     save_yml(data)
-    print("Save")
+    EmployeeManager.NormalScreen(root)
 
 def makeform(root, fields):
     entries = {}
