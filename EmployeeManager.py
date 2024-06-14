@@ -7,7 +7,7 @@ import AddEmployee
 import ChangePasswort
 import EmployeeDetails
 import ManageUser
-from Login import loginuser
+#from Login import loginuser
 
 OpenMenu = True
 
@@ -52,7 +52,7 @@ def Settingsmenu(root):
 
         user.bind("<Button-1>", lambda event: ManageUser.ManageUserOverview(root))
 
-        passwort.bind("<Button-1>", lambda event: ChangePasswort.ChangePasswort(root, loginuser))
+        #passwort.bind("<Button-1>", lambda event: ChangePasswort.ChangePasswort(root, loginuser))
 
         OpenMenu = False
     else:
