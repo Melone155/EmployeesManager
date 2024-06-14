@@ -74,10 +74,10 @@ def SaveCreate(root, username, password, permission):
     if 'User' not in existing_data:
         existing_data['User'] = {}
 
-    new_user = {
+    new_user = [{
         'Passwort': password,
         'permission': permission
-    }
+    }]
 
     existing_data['User'][username] = new_user
 
