@@ -1,4 +1,5 @@
 import os
+import time
 import tkinter as tk
 from tkinter import Frame, Label, Button, Entry
 import yaml
@@ -9,6 +10,9 @@ import os
 import tkinter as tk
 from tkinter import Canvas, Label
 import yaml
+
+import ManageUser
+
 
 def Create(root):
     for widget in root.winfo_children():
@@ -56,7 +60,7 @@ def Create(root):
     read.place(x=50, y=260)
 
     save_button.bind("<Button-1>", lambda event: SaveCreate(root, nameentry.get(), passwortentry.get(), var.get()))
-    #back.bind("<Button-1>", lambda event: ManageUserOverview(root))
+    back.bind("<Button-1>", lambda event: ManageUser.ManageUserOverview(root))
 
 def SaveCreate(root, username, password, permission):
     if not username or not password:
@@ -86,3 +90,6 @@ def SaveCreate(root, username, password, permission):
 
     success = tk.Label(root, text="User successfully saved", font=("Helvetica", 16), fg="green")
     success.place(x=50, y=300)
+
+    time.sleep(2)
+    ManageUser.ManageUserOverview(root)
