@@ -55,7 +55,7 @@ def Edit(root, username, details):
     read.place(x=50, y=260)
 
     save_button.bind("<Button-1>", lambda event: SaveCreate(root, nameentry.get(), passwortentry.get(), var.get()))
-    back.bind("<Button-1>", lambda event: ManageUserDetails.show_user_details(root, username, details))
+    back.bind("<Button-1>", lambda event: ManageUser.ManageUserOverview(root))
 
     # Load data if username is provided
     if username:
