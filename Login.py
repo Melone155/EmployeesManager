@@ -39,7 +39,7 @@ def LoginScreen(root):
 
     Setup_Wizard_Button = ctk_button.CTkButton(
         master=root,
-        text="Finished",
+        text="Login",
         font=main_font,
         text_color="black",
         height=40,
