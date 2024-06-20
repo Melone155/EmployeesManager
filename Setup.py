@@ -1,6 +1,5 @@
 import tkinter as tk
 
-import mysql.connector
 from PIL import Image, ImageTk
 import customtkinter
 from customtkinter.windows.widgets import ctk_button

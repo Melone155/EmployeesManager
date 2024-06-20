@@ -7,7 +7,7 @@ import AddEmployee
 import ChangePasswort
 import EmployeeDetails
 import ManageUser
-from Login import loginuser
+#from Login import loginuser
 
 OpenMenu = True
 
@@ -52,7 +52,7 @@ def Settingsmenu(root):
 
         user.bind("<Button-1>", lambda event: ManageUser.ManageUserOverview(root))
 
-        passwort.bind("<Button-1>", lambda event: ChangePasswort.ChangePasswort(root, loginuser))
+        #passwort.bind("<Button-1>", lambda event: ChangePasswort.ChangePasswort(root, loginuser))
 
         OpenMenu = False
     else:
@@ -96,8 +96,7 @@ def display_data(root, data):
             name_label = Label(frame, text=name, font=("Helvetica", 16))
             name_label.pack(side="left", padx=5, pady=5)
 
-            view_button = Button(frame, text=">", font=("Helvetica", 16),
-                                 command=lambda: EmployeeDetails.Details(root, emp_id))
+            view_button = Button(frame, text=">", font=("Helvetica", 16), command=lambda emp_id: EmployeeDetails.Details(root, emp_id))
             view_button.pack(side="right", padx=5, pady=5)
 
             row += 1

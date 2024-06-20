@@ -39,7 +39,7 @@ def LoginScreen(root):
 
     Setup_Wizard_Button = ctk_button.CTkButton(
         master=root,
-        text="Finished",
+        text="Login",
         font=main_font,
         text_color="black",
         height=40,
@@ -75,8 +75,10 @@ def UserRequest(username, password):
         return False
 
     users = userdata.get('User', {})
-    user_info = users.get(username)
+    user_info_list = users.get(username)
 
-    if user_info and user_info.get('Passwort') == password:
-        return True
+    if user_info_list:
+        for user_info in user_info_list:
+            if user_info.get('Passwort') == password:
+                return True
     return False
