@@ -86,17 +86,7 @@ def makeform(root, fields):
         entries[field] = ent
     return entries
 
-def CreateConfigs(status, database, host, password, user):
-    mysql_config = {
-        'MySQL': [{
-            'Database': database,
-            'Host': host,
-            'Password': password,
-            'Status': status,
-            'User': user
-        }]
-    }
-
+def CreateConfigs():
     employees = {}
 
     user = {
@@ -108,17 +98,11 @@ def CreateConfigs(status, database, host, password, user):
         }
     }
 
-    mysql_path = "Config/MySQL.yaml"
-    os.makedirs(os.path.dirname(mysql_path), exist_ok=True)
-
     employees_path = "Config/Employees.yaml"
     os.makedirs(os.path.dirname(employees_path), exist_ok=True)
 
     user_path = "Config/User.yaml"
     os.makedirs(os.path.dirname(user_path), exist_ok=True)
-
-    with open(mysql_path, 'w') as file:
-        yaml.dump(mysql_config, file, default_flow_style=False)
 
     with open(employees_path, 'w') as file:
         yaml.dump(employees, file, default_flow_style=False)
