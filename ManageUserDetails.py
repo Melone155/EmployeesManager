@@ -11,6 +11,9 @@ import tkinter as tk
 from tkinter import Canvas, Label
 import yaml
 
+import ManageUser
+
+
 def show_user_details(root, username, details):
 
     for widget in root.winfo_children():
@@ -29,6 +32,7 @@ def show_user_details(root, username, details):
     edit_button.place(x=830, y=11)
 
     edit_button.bind("<Button-1>", lambda event: EditManageUser.Edit(root, username, details))
+    back.bind("<Button-1>", lambda event: ManageUser.ManageUserOverview(root))
 
     for detail in details:
 

@@ -96,7 +96,7 @@ def display_data(root, data):
             name_label = Label(frame, text=name, font=("Helvetica", 16))
             name_label.pack(side="left", padx=5, pady=5)
 
-            view_button = Button(frame, text=">", font=("Helvetica", 16), command=lambda emp_id=emp_id: EmployeeDetails.Details(root, emp_id))
+            view_button = Button(frame, text=">", font=("Helvetica", 16), command=lambda emp_id: EmployeeDetails.Details(root, emp_id))
             view_button.pack(side="right", padx=5, pady=5)
 
             row += 1
