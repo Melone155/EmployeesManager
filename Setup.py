@@ -93,5 +93,5 @@ def start_Wizard(root):
     Setup_Wizard_Button.place(x=397, y=480)
 
 def Finishsetup(root):
-        YML.CreateConfigs(False, "", "", "", "")
+        YML.CreateConfigs()
         Login.LoginScreen(root)
