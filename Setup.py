@@ -49,8 +49,7 @@ def Setupstart(root):
 
         Setup_Wizard_Button.place(x=400, y=400)
     else:
-        if Login.IsLogin == False:
-            Login.LoginScreen(root)
+        Login.LoginScreen(root)
 
 def start_Wizard(root):
 

@@ -1,17 +1,13 @@
 import tkinter as tk
-
 import yaml
 from PIL import Image, ImageTk
 import customtkinter
 from customtkinter.windows.widgets import ctk_button
 
 import EmployeeManager
-
-IsLogin = False
-loginuser = ""
+import config
 
 def LoginScreen(root):
-
     # Clear All Old Objects
     for widget in root.winfo_children():
         widget.destroy()
@@ -23,6 +19,7 @@ def LoginScreen(root):
     label = tk.Label(root, image=tk_image)
     label.image = tk_image
     label.pack(pady=20)
+
     Userlabe = tk.Label(root, text="Username", font=("Helvetica", 16))
     Userlabe.place(x=336, y=284)
 
@@ -50,20 +47,19 @@ def LoginScreen(root):
         bg_color="#ffffff",
         fg_color="#ffffff",
         hover=False,
-        command=
-        lambda: Login(Userentry.get(), passwordentry.get(), root)
+        command=lambda: Login(Userentry.get(), passwordentry.get(), root)
     )
 
     Setup_Wizard_Button.place(x=387, y=360)
 
-
 def Login(User, Password, root):
     if UserRequest(User, Password):
-        #User login was successful
+        # User login was successful
         EmployeeManager.NormalScreen(root)
-        loginuser = User
+        config.loginuser = User
+
     else:
-        labe = tk.Label(root, text="The username or password is incorrect try again", font=("Helvetica", 13))
+        labe = tk.Label(root, text="The username or password is incorrect. Try again", font=("Helvetica", 13))
         labe.place(x=270, y=410)
 
 def UserRequest(username, password):
