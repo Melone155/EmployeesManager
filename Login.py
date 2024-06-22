@@ -55,9 +55,9 @@ def LoginScreen(root):
 def Login(User, Password, root):
     if UserRequest(User, Password):
         # User login was successful
-        EmployeeManager.NormalScreen(root)
         config.loginuser = User
-
+        config.permission = get_permission(User)
+        EmployeeManager.NormalScreen(root)
     else:
         labe = tk.Label(root, text="The username or password is incorrect. Try again", font=("Helvetica", 13))
         labe.place(x=270, y=410)
@@ -78,3 +78,19 @@ def UserRequest(username, password):
             if user_info.get('Passwort') == password:
                 return True
     return False
+
+def get_permission(user):
+    try:
+        with open('Config/User.yaml', 'r') as file:
+            userdata = yaml.safe_load(file)
+    except FileNotFoundError:
+        print("User.yaml file not found.")
+        return ""
+
+    users = userdata.get('User', {})
+    user_info_list = users.get(user)
+
+    if user_info_list:
+        for user_info in user_info_list:
+            return user_info.get('permission')
+    return ""

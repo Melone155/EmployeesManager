@@ -7,10 +7,9 @@ import AddEmployee
 import ChangePasswort
 import EmployeeDetails
 import ManageUser
-import config
+import config  # Importiere das config Modul
 
 OpenMenu = True
-
 
 def NormalScreen(root):
     for widget in root.winfo_children():
@@ -19,13 +18,13 @@ def NormalScreen(root):
     canvas = tk.Canvas(root, width=900, height=50, bg="#FFFFFF")
     canvas.grid(row=0, column=0, columnspan=2, sticky='ew')
 
-    add = tk.Label(root, text="Add", font=("Helvetica", 16), bg="white")
-    add.grid(row=0, column=1, sticky='e', padx=20)
+    if config.permission == "*" or config.permission == "rw":
+        add = tk.Label(root, text="Add", font=("Helvetica", 16), bg="white")
+        add.grid(row=0, column=1, sticky='e', padx=20)
+        add.bind("<Button-1>", lambda event: AddEmployee.AddEmployee(root))
 
     options = tk.Label(root, text="Settings", font=("Helvetica", 16), bg="white")
     options.grid(row=0, column=0, sticky='w', padx=20)
-
-    add.bind("<Button-1>", lambda event: AddEmployee.AddEmployee(root))
     options.bind("<Button-1>", lambda event: Settingsmenu(root))
 
     search_entry = Entry(root, font=("Helvetica", 14))
@@ -44,13 +43,13 @@ def Settingsmenu(root):
         settings_frame = Frame(root, bg="#FFFFFF")
         settings_frame.grid(row=2, column=0, columnspan=2, sticky='nsew')
 
-        user = tk.Label(settings_frame, text="User", font=("Helvetica", 16), bg="white")
-        user.grid(row=0, column=0, sticky='w', padx=10, pady=5)
+        if config.permission == "*":
+            user = tk.Label(settings_frame, text="User", font=("Helvetica", 16), bg="white")
+            user.grid(row=0, column=0, sticky='w', padx=10, pady=5)
+            user.bind("<Button-1>", lambda event: ManageUser.ManageUserOverview(root))
 
         passwort = tk.Label(settings_frame, text="Passwort", font=("Helvetica", 16), bg="white")
         passwort.grid(row=1, column=0, sticky='w', padx=10, pady=5)
-
-        user.bind("<Button-1>", lambda event: ManageUser.ManageUserOverview(root))
 
         passwort.bind("<Button-1>", lambda event: ChangePasswort.Change(root, config.loginuser))
 

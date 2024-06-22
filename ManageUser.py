@@ -13,6 +13,7 @@ from tkinter import Canvas, Label
 import yaml
 import config
 
+import Login
 import ManageUserDetails
 
 OpenMenu = False

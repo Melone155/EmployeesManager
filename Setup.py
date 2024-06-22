@@ -12,14 +12,13 @@ import YML
 var = None
 
 def Setupstart(root):
-    MySQL = 'Config/MySQL.yaml'
     Employees = 'Config/Employees.yaml'
     User = 'Config/User.yaml'
 
     global var
     var = tk.StringVar()
 
-    if not os.path.exists(Employees) or not os.path.exists(MySQL) or not os.path.exists(User):
+    if not os.path.exists(Employees) or not os.path.exists(User):
 
         image = Image.open("Picture/Logo.png")
         image = image.resize((460, 327))  # Größe anpassen
