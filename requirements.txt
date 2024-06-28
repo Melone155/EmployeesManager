@@ -1,0 +1,11 @@
+PyYAML
+config
+customtkinter
+darkdetect
+decorator
+funcsigs
+packaging
+pillow
+setuptools
+six
+wheel
