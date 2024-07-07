@@ -27,8 +27,12 @@ def Details(root, id):
     edit = tk.Label(root, text="Edit", font=("Helvetica", 16), bg="white")
     edit.place(x=830, y=11)
 
+    delete = tk.Label(root, text="Delete", font=("Helvetica", 16), bg="white")
+    delete.place(x=750, y=11)
+
     back.bind("<Button-1>", lambda event: EmployeeManager.NormalScreen(root))
     edit.bind("<Button-1>", lambda event: EditEmployeeDetaisl.Edit(root, id))
+    delete.bind("<Button-1>", lambda event: delete_employee_entry("Config/Employees.yaml", id, root))
 
     strem = open("Config/Employees.yaml")
     dictionary = yaml.safe_load(strem)
@@ -107,3 +111,17 @@ def Details(root, id):
 
     PayFill = tk.Label(root, text=dictionary["Employees"][id]["Address"], font=("Helvetica", 16))
     PayFill.place(x=610, y=250)
+
+def delete_employee_entry(file_path, employee_id, root):
+    # Datei einlesen
+    with open(file_path, 'r') as file:
+        employees_data = yaml.safe_load(file)
+
+    # Eintrag löschen, falls vorhanden
+    if employee_id in employees_data['Employees']:
+        del employees_data['Employees'][employee_id]
+        EmployeeManager.NormalScreen(root)
+
+    # Datei erneut speichern
+    with open(file_path, 'w') as file:
+        yaml.safe_dump(employees_data, file, default_flow_style=False)
