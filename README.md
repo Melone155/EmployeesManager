@@ -8,10 +8,10 @@ The project is an HR (employee manager) programmed in Python. It was created as 
 ### What can the project do?
 This project can be used to create employees. All employee data is saved in a YAML file. In addition, administrative users can be created who can perform various tasks depending on their rights.
 
-### Wie ist der Standardbenutzer?
+### What is the default user?
 When you start and set up the project for the first time, you will be asked for a login. The default user is admin and the password is admin.
 
-### Was brauche ich, um das Projekt zu benutzen?
+### What do I need to use the project?
 You need at least Python version 3.10 and some libraries (PyYAML, config, customtkinter, darkdetect, decorator, funcsigs, packaging, pillow, setuptools, six, wheel). These can be installed using the following command
 
     pip install -r requirements.txt
